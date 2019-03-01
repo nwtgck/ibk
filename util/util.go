@@ -2,44 +2,23 @@ package util
 
 import (
 	"fmt"
-	"github.com/mattn/go-shellwords"
 	"os"
 	"os/exec"
+	"strings"
 )
 
-// Run command and return the output
-// (from: https://qiita.com/tanksuzuki/items/9205ff70c57c4c03b5e5)
-func RunCmdStr(cmdstr string) ([]byte, error) {
-	var out []byte
-	// Parse the command string
-	c, err := shellwords.Parse(cmdstr)
-	if err != nil {
-		return out, err
+func EchoRunCommand(name string, args ...string) ([]byte, error) {
+	var cmdList []string
+	for _, x := range append([]string{name}, args...) {
+		// (%#v from: https://stackoverflow.com/a/50054686/2885946)
+		cmdList = append(cmdList, fmt.Sprintf("%#v", x))
 	}
-	switch len(c) {
-	// Empty string
-	case 0:
-		return out, nil
-	// Only command without options
-	case 1:
-		out, err = exec.Command(c[0]).CombinedOutput()
-	// Command with options
-	default:
-		out, err = exec.Command(c[0], c[1:]...).CombinedOutput()
-	}
-	if err != nil {
-		return out, err
-	}
-	return out, nil
-}
-
-
-// Print command and run the command
-func EchoRunCmdStr(cmdstr string) ([]byte, error) {
-	// Print command
-	fmt.Printf("+ %s\n", cmdstr)
-	res, err := RunCmdStr(cmdstr)
-	return res, err
+	cmdListStr := fmt.Sprintf(
+		"CMD [ %s ]",
+		strings.Join(cmdList, ", "),
+	)
+	fmt.Println(cmdListStr)
+	return exec.Command(name, args...).Output()
 }
 
 func Chdir(dirpath string, process func() error) error {

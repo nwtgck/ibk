@@ -36,16 +36,18 @@ func Backup(targetDirPath string, dstDirPath string) error {
 	// Define tar file name
 	tarFileName := fmt.Sprintf("%s_%s.tar", targetBaseName, formatTime(time.Now()))
 
-	targetSnarpath := filepath.Join(dstDirPath, targetSnarName)
+	targetSnarPath := filepath.Join(dstDirPath, targetSnarName)
 	tarFilePath := filepath.Join(dstDirPath, tarFileName)
 
 	// Incremental backup
-	_, err := util.EchoRunCmdStr(fmt.Sprintf(
-		"gtar -g %s -cf %s %s",
-		targetSnarpath,
+	_, err := util.EchoRunCommand(
+		"gtar",
+		"-g",
+		targetSnarPath,
+		"-cf",
 		tarFilePath,
 		targetDirPath,
-	))
+	)
 	return err
 }
 
@@ -67,8 +69,13 @@ func Restore(dstDirPath string) error {
 		// Sort tar file names
 		sort.Strings(tarFileNames)
 		for _, tarFileName := range(tarFileNames) {
-			command := fmt.Sprintf("gtar -g %s -xf %s", snarFileName, tarFileName)
-			_, err := util.EchoRunCmdStr(command)
+			_, err := util.EchoRunCommand(
+				"gtar",
+				"-g",
+				snarFileName,
+				"-xf",
+				tarFileName,
+			)
 			if err != nil {
 				return err
 			}
