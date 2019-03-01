@@ -1,8 +1,14 @@
 package main
 
-import "github.com/nwtgck/ibk"
+import (
+	"fmt"
+	"github.com/nwtgck/ibk/cmd"
+	"os"
+)
 
 func main() {
-	ibk.Backup()
-	//ibk.Restore()
+	if err := cmd.RootCmd.Execute(); err != nil {
+		fmt.Fprintf(os.Stderr, err.Error())
+		os.Exit(-1)
+	}
 }

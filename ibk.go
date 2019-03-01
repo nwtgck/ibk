@@ -24,11 +24,7 @@ func formatTime(t time.Time) string {
 	)
 }
 
-func Backup() error {
-	// TODO: Hard code
-	targetDirPath := "./mydir"
-	// TODO: Hard code
-	dstDirPath := "./mydst"
+func Backup(targetDirPath string, dstDirPath string) error {
 	// Get the base name of the target directory
 	targetBaseName := filepath.Base(targetDirPath)
 	// Difine snar name

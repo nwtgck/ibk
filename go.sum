@@ -1,4 +1,8 @@
 github.com/mattn/go-shellwords v1.0.5 h1:JhhFTIOslh5ZsPrpa3Wdg8bF0WI3b44EMblmU9wIsXc=
 github.com/mattn/go-shellwords v1.0.5/go.mod h1:3xCvwCdWdlDJUrvuMn7Wuy9eWs4pE8vqg+NOMyg4B2o=
+github.com/spf13/cobra v0.0.3 h1:ZlrZ4XsMRm04Fr5pSFxBgfND2EBVa1nLpiy1stUsX/8=
+github.com/spf13/cobra v0.0.3/go.mod h1:1l0Ry5zgKvJasoi3XT1TypsSe7PqH0Sj9dhYf7v3XqQ=
+github.com/spf13/pflag v1.0.3 h1:zPAT6CGy6wXeQ7NtTnaTerfKOsV6V6F8agHXFiazDkg=
+github.com/spf13/pflag v1.0.3/go.mod h1:DYY7MBk1bdzusC3SYhjObp+wFpr4gzcvqqNjLnInEg4=
 github.com/vjeantet/jodaTime v0.0.0-20170816150230-be924ce213fb h1:9Cx/q/wd5p+BjCDBjY+rauPbwoS+chrnQ9MKMUtv/hs=
 github.com/vjeantet/jodaTime v0.0.0-20170816150230-be924ce213fb/go.mod h1:XK4iy/zfkdRGe+lWQYwmebWh0IIMIe6+wi3APUAiCJ0=
