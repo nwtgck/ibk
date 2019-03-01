@@ -51,37 +51,40 @@ func Backup(srcDirPath string, backupDirPath string, now time.Time) error {
 	return err
 }
 
-func Restore(backupDirPath string) error {
-	err := util.Chdir(backupDirPath, func() error {
-		// Find .snar files
-		matches, err := filepath.Glob("**.snar")
+func Restore(backupDirPath string, restoredDirPath string) error {
+	// Create restored path if it doesn't exist
+	os.MkdirAll(restoredDirPath, os.ModePerm)
+
+	//err := util.Chdir(backupDirPath, func() error {
+	// Find .snar files
+	matches, err := filepath.Glob(filepath.Join(backupDirPath, "**.snar"))
+	if err != nil {
+		return err
+	}
+	// Get snar file name
+	// TODO: Should handle empty slice
+	snarFilePath := matches[0]
+	// Get tar file names
+	tarFilePaths, err := filepath.Glob(filepath.Join(backupDirPath, "**.tar"))
+	if err != nil {
+		return err
+	}
+	// Sort tar file names
+	sort.Strings(tarFilePaths)
+	for _, tarFilePath := range(tarFilePaths) {
+		_, err := util.EchoRunCommand(
+			"gtar",
+			"-g",
+			snarFilePath,
+			"-xf",
+			tarFilePath,
+			"-C",
+			restoredDirPath,
+		)
 		if err != nil {
 			return err
 		}
-		// Get snar file name
-		// TODO: Should handle empty slice
-		snarFileName := matches[0]
-		// Get tar file names
-		tarFileNames, err := filepath.Glob("**.tar")
-		if err != nil {
-			return err
-		}
-		// Sort tar file names
-		sort.Strings(tarFileNames)
-		for _, tarFileName := range(tarFileNames) {
-			_, err := util.EchoRunCommand(
-				"gtar",
-				"-g",
-				snarFileName,
-				"-xf",
-				tarFileName,
-			)
-			if err != nil {
-				return err
-			}
-		}
-		return nil
-	})
-	return err
+	}
+	return nil
 }
 

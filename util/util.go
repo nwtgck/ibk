@@ -2,7 +2,6 @@ package util
 
 import (
 	"fmt"
-	"os"
 	"os/exec"
 	"strings"
 )
@@ -19,13 +18,4 @@ func EchoRunCommand(name string, args ...string) ([]byte, error) {
 	)
 	fmt.Println(cmdListStr)
 	return exec.Command(name, args...).Output()
-}
-
-func Chdir(dirpath string, process func() error) error {
-	err := os.Chdir(dirpath)
-	if err != nil {
-		return err
-	}
-	defer os.Chdir(dirpath)
-	return process()
 }
