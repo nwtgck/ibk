@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"github.com/nwtgck/ibk/util"
 	"os"
+	"os/exec"
 	"path/filepath"
+	"runtime"
 	"sort"
 	"time"
 )
@@ -24,7 +26,23 @@ func formatTime(t time.Time) string {
 	)
 }
 
+// tar command name
+func getTarName() string {
+	if runtime.GOOS == "darwin" {
+		return "gtar"
+	} else {
+		return "tar"
+	}
+}
+
 func Backup(srcDirPath string, backupDirPath string, now time.Time) error {
+	tarName := getTarName()
+	// If tar is not available
+	// (from: https://qiita.com/suin/items/2724f15fff9c1948c5b3)
+	if _, err := exec.LookPath(tarName); err != nil {
+		return fmt.Errorf("%s command is not available\n", tarName)
+	}
+
 	// Get the base name of the source directory
 	srcBaseName := filepath.Base(srcDirPath)
 	// Define snar name
@@ -41,7 +59,7 @@ func Backup(srcDirPath string, backupDirPath string, now time.Time) error {
 
 	// Incremental backup
 	_, err := util.EchoRunCommand(
-		"gtar",
+		tarName,
 		"-g",
 		backupSnarPath,
 		"-cf",
@@ -52,6 +70,13 @@ func Backup(srcDirPath string, backupDirPath string, now time.Time) error {
 }
 
 func Restore(backupDirPath string, restoredDirPath string) error {
+	tarName := getTarName()
+	// If tar is not available
+	// (from: https://qiita.com/suin/items/2724f15fff9c1948c5b3)
+	if _, err := exec.LookPath(tarName); err != nil {
+		return fmt.Errorf("%s command is not available\n", tarName)
+	}
+
 	// Create restored path if it doesn't exist
 	os.MkdirAll(restoredDirPath, os.ModePerm)
 
@@ -73,7 +98,7 @@ func Restore(backupDirPath string, restoredDirPath string) error {
 	sort.Strings(tarFilePaths)
 	for _, tarFilePath := range(tarFilePaths) {
 		_, err := util.EchoRunCommand(
-			"gtar",
+			tarName,
 			"-g",
 			snarFilePath,
 			"-xf",
