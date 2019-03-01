@@ -24,35 +24,35 @@ func formatTime(t time.Time) string {
 	)
 }
 
-func Backup(targetDirPath string, dstDirPath string, now time.Time) error {
-	// Get the base name of the target directory
-	targetBaseName := filepath.Base(targetDirPath)
-	// Difine snar name
-	targetSnarName := fmt.Sprintf("%s.snar", targetBaseName)
+func Backup(srcDirPath string, backupDirPath string, now time.Time) error {
+	// Get the base name of the source directory
+	srcBaseName := filepath.Base(srcDirPath)
+	// Define snar name
+	srcSnarName := fmt.Sprintf("%s.snar", srcBaseName)
 
 	// Create destination path if it doesn't exist
-	os.MkdirAll(dstDirPath, os.ModePerm)
+	os.MkdirAll(backupDirPath, os.ModePerm)
 
 	// Define tar file name
-	tarFileName := fmt.Sprintf("%s_%s.tar", targetBaseName, formatTime(now))
+	tarFileName := fmt.Sprintf("%s_%s.tar", srcBaseName, formatTime(now))
 
-	targetSnarPath := filepath.Join(dstDirPath, targetSnarName)
-	tarFilePath := filepath.Join(dstDirPath, tarFileName)
+	backupSnarPath := filepath.Join(backupDirPath, srcSnarName)
+	tarFilePath := filepath.Join(backupDirPath, tarFileName)
 
 	// Incremental backup
 	_, err := util.EchoRunCommand(
 		"gtar",
 		"-g",
-		targetSnarPath,
+		backupSnarPath,
 		"-cf",
 		tarFilePath,
-		targetDirPath,
+		srcDirPath,
 	)
 	return err
 }
 
-func Restore(dstDirPath string) error {
-	err := util.Chdir(dstDirPath, func() error {
+func Restore(backupDirPath string) error {
+	err := util.Chdir(backupDirPath, func() error {
 		// Find .snar files
 		matches, err := filepath.Glob("**.snar")
 		if err != nil {
