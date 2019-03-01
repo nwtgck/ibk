@@ -1,4 +1,4 @@
-package main
+package ibk
 
 import (
 	"fmt"
@@ -24,7 +24,7 @@ func formatTime(t time.Time) string {
 	)
 }
 
-func backup() error {
+func Backup() error {
 	// TODO: Hard code
 	targetDirPath := "./mydir"
 	// TODO: Hard code
@@ -53,7 +53,7 @@ func backup() error {
 	return err
 }
 
-func restore() error {
+func Restore() error {
 	// TODO: Hard code
 	dstDirPath := "./mydst"
 	err := util.Chdir(dstDirPath, func() error {
@@ -84,7 +84,3 @@ func restore() error {
 	return err
 }
 
-func main() {
-	backup()
-	//restore()
-}
