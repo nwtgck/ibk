@@ -49,9 +49,7 @@ func Backup(targetDirPath string, dstDirPath string) error {
 	return err
 }
 
-func Restore() error {
-	// TODO: Hard code
-	dstDirPath := "./mydst"
+func Restore(dstDirPath string) error {
 	err := util.Chdir(dstDirPath, func() error {
 		// Find .snar files
 		matches, err := filepath.Glob("**.snar")
