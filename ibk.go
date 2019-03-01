@@ -24,7 +24,7 @@ func formatTime(t time.Time) string {
 	)
 }
 
-func Backup(targetDirPath string, dstDirPath string) error {
+func Backup(targetDirPath string, dstDirPath string, now time.Time) error {
 	// Get the base name of the target directory
 	targetBaseName := filepath.Base(targetDirPath)
 	// Difine snar name
@@ -34,7 +34,7 @@ func Backup(targetDirPath string, dstDirPath string) error {
 	os.MkdirAll(dstDirPath, os.ModePerm)
 
 	// Define tar file name
-	tarFileName := fmt.Sprintf("%s_%s.tar", targetBaseName, formatTime(time.Now()))
+	tarFileName := fmt.Sprintf("%s_%s.tar", targetBaseName, formatTime(now))
 
 	targetSnarPath := filepath.Join(dstDirPath, targetSnarName)
 	tarFilePath := filepath.Join(dstDirPath, tarFileName)
