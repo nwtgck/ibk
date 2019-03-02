@@ -1,6 +1,42 @@
 version: 2
+
+ANCHORS:
+  working_test: &working_test
+    command: |
+      set -x
+      go build -o ibk main/main.go
+
+      # Create test environement
+      # All tests should be done in this directory
+      mkdir test_env
+      cd test_env
+
+      # Create mydir and set up
+      mkdir mydir
+      echo "hello" > mydir/hello.txt
+      mkdir mydir/dir1
+      seq 9 > mydir/dir1/seq.txt
+
+      # Backup
+      ../ibk backup -b mybackup mydir
+
+      # (I don't know why sleep is required)
+      sleep 1
+
+      # Modify a file
+      seq 10 > mydir/dir1/seq.txt
+
+      # Backup incrementally
+      ../ibk backup -b mybackup mydir
+
+      # Restore
+      ../ibk restore -r myrestore mybackup
+
+      # Check equality
+      diff -r mydir/ myrestore/mydir/
+
 jobs:
-  build:
+  linux_build:
     docker:
       - image: circleci/golang:1.11.0
         environment:
@@ -9,35 +45,10 @@ jobs:
       - checkout
       - run:
           name: Working Test
-          command: |
-            set -x
-            go build -o ibk main/main.go
+          <<: *working_test
 
-            # Create test environement
-            # All tests should be done in this directory
-            mkdir test_env
-            cd test_env
-
-            # Create mydir and set up
-            mkdir mydir
-            echo "hello" > mydir/hello.txt
-            mkdir mydir/dir1
-            seq 9 > mydir/dir1/seq.txt
-
-            # Backup
-            ../ibk backup -b mybackup mydir
-
-            # (I don't know why sleep is required)
-            sleep 1
-
-            # Modify a file
-            seq 10 > mydir/dir1/seq.txt
-
-            # Backup incrementally
-            ../ibk backup -b mybackup mydir
-
-            # Restore
-            ../ibk restore -r myrestore mybackup
-
-            # Check equality
-            diff -r mydir/ myrestore/mydir/
+workflows:
+  version: 2
+  builds:
+    jobs:
+      - linux_build
