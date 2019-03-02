@@ -5,7 +5,7 @@ Incremental Backup CLI with `tar`
 
 ## Design Philosophy
 
-We don't want to lose data. That is the biggest motivation to **backup**. In addition, we don't want to wast our storage by backups. That is the main reason to use an **incremental** backup.
+We don't want to lose data. That is the biggest motivation to **backup**. In addition, we don't want to waste our storage by backups. That is the main reason to use an **incremental** backup.
 
 Although an amazing file system such as ZFS supports snapshot functionality, every OS doesn't support it. Thus, `ibk` uses snapshot functionality of `tar` since `tar` is widely installed, used and matured. `ibk` assist you to backup incrementally using `tar` inside. This means **you can backup/restore with the natural `tar` command**.
 
