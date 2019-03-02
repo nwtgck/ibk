@@ -46,9 +46,27 @@ jobs:
       - run:
           name: Working Test
           <<: *working_test
+  
+  macos_build:
+    macos:
+      xcode: "9.3.0"
+    steps:
+      - checkout
+      - run:
+          # NOTE: Should fix Go version
+          name: Install Homebrew Dependencies
+          command: brew install go gnu-tar
+      - run:
+          name: Show Environment
+          command: |
+            go version
+      - run:
+          name: Working Test
+          <<: *working_test
 
 workflows:
   version: 2
   builds:
     jobs:
       - linux_build
+      - macos_build
