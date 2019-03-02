@@ -1,4 +1,6 @@
 # ibk
+[![CircleCI](https://circleci.com/gh/nwtgck/ibk.svg?style=shield)](https://circleci.com/gh/nwtgck/ibk)
+
 Incremental Backup CLI with `tar`
 
 ## Design Philosophy
