@@ -21,7 +21,7 @@ func formatTime(t time.Time) string {
 		t.Year(), t.Month(), t.Day(),
 		t.Hour(), t.Minute(),
 		t.Second(),
-		t.Nanosecond() / 1000000,
+		t.Nanosecond() / 1000,
 		zone,
 	)
 }
