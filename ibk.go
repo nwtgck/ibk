@@ -17,7 +17,7 @@ func formatTime(t time.Time) string {
 	// NOTE: Tried to use time#Format(), but it is very weird implementation.
 	// Third-party libraries seem not to be maintained.
 	return fmt.Sprintf(
-		"%d%02d%02d_%02d%02d_%02d_%03d_%s",
+		"%d%02d%02d_%02d%02d_%02d_%06d_%s",
 		t.Year(), t.Month(), t.Day(),
 		t.Hour(), t.Minute(),
 		t.Second(),
