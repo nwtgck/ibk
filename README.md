@@ -3,7 +3,7 @@
 
 Incremental Backup CLI with `tar`
 
-## Design Philosophy
+## Motivation
 
 We don't want to lose data. That is the biggest motivation to **backup**. In addition, we don't want to waste our storage by backups. That is the main reason to use an **incremental** backup.
 
