@@ -17,6 +17,10 @@ Although an amazing file system such as ZFS supports snapshot functionality, eve
 ### macOS
 * `brew install gnu-tar`
 
+## Installation
+
+Get binaries from [GitHub Releases](https://github.com/nwtgck/ibk/releases)
+
 ## Usage
 
 ### Backup
