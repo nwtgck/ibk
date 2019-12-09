@@ -45,7 +45,7 @@ ibk backup ./mydir
 ### Restore
 
 ```bash
-./ibk restore ./mydir.ibk/
+ibk restore ./mydir.ibk/
 ```
 
 Then, you have `ibk_restored` directory which contains the following hierarchy.
